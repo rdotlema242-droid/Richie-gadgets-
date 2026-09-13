@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
 import { Product } from "@/types/product";
 import { formatPrice, cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
-import { getProductImage } from "@/data/images";
+import { ProductImage } from "@/components/ui/ProductImage";
 
 interface ProductCardProps {
   product: Product;
@@ -30,12 +29,6 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
       toast.success("Added to wishlist");
     }
   };
-
-  // Prefer centralized registry, fall back to product.images
-  const registryImage = getProductImage(product.id, product.name);
-  const legacyImage = product.images?.find((i) => i.isPrimary) || product.images?.[0];
-  const imageUrl = registryImage.url || legacyImage?.url;
-  const imageAlt = registryImage.alt || legacyImage?.alt || product.name;
 
   return (
     <Link
@@ -68,23 +61,13 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         <Heart className={cn("h-4 w-4", isInWishlist && "fill-current")} />
       </button>
 
-      <div className="relative aspect-square bg-white/[0.03] overflow-hidden">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={imageAlt}
-            fill
-            className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            priority={priority}
-            unoptimized
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
-            No image
-          </div>
-        )}
-      </div>
+      <ProductImage
+        productId={product.id}
+        productName={product.name}
+        className="aspect-square w-full"
+        imageClassName="transition-transform duration-500 group-hover:scale-105"
+        priority={priority}
+      />
 
       <div className="flex flex-col flex-1 p-4 pt-3">
         <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search, X } from "lucide-react";
 import { searchProducts } from "@/data/products";
+import { getProductImage } from "@/data/images";
 import { formatPrice } from "@/lib/utils";
 
 interface SearchModalProps {
@@ -58,7 +59,7 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
             className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground outline-none text-base"
           />
           <button
-             onClick={handleClose}
+            onClick={handleClose}
             className="p-1.5 text-muted-foreground hover:text-foreground rounded-full hover:bg-white/5"
           >
             <X className="h-5 w-5" />
@@ -83,20 +84,18 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
                 <li key={product.id}>
                   <Link
                     href={`/products/${product.slug}`}
-                     onClick={handleClose}
+                    onClick={handleClose}
                     className="flex items-center gap-4 px-4 py-3 hover:bg-white/5 transition-colors"
                   >
                     <div className="relative h-14 w-14 rounded-lg bg-white/5 overflow-hidden shrink-0">
-                      {product.images[0] && (
-                        <Image
-                          src={product.images[0].url}
-                          alt={product.images[0].alt}
-                          fill
-                          className="object-contain p-1"
-                          sizes="56px"
-                          unoptimized
-                        />
-                      )}
+                      <Image
+                        src={getProductImage(product.id, product.name).url}
+                        alt={getProductImage(product.id, product.name).alt}
+                        fill
+                        className="object-contain p-1"
+                        sizes="56px"
+                        unoptimized
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">
@@ -120,7 +119,7 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
           <div className="border-t border-border px-4 py-3">
             <Link
               href={`/shop?q=${encodeURIComponent(query)}`}
-               onClick={handleClose}
+              onClick={handleClose}
               className="text-sm text-accent hover:text-accent-hover font-medium"
             >
               View all results →

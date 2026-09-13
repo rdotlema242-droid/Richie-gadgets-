@@ -6,6 +6,7 @@ import Image from "next/image";
 import { X, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { getProductById } from "@/data/products";
+import { getProductImage } from "@/data/images";
 import { formatPrice, cn } from "@/lib/utils";
 
 export function CartDrawer() {
@@ -108,8 +109,8 @@ export function CartDrawer() {
           ) : (
             <ul className="space-y-5">
               {cartProducts.map(({ item, product }) => {
-                const primaryImage =
-                  product.images.find((i) => i.isPrimary) || product.images[0];
+                const img = getProductImage(product.id, product.name);
+                const primaryImage = { url: img.url, alt: img.alt };
                 return (
                   <li
                     key={`${item.productId}-${item.selectedStorage || ""}-${item.selectedColor || ""}`}

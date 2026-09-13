@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/store/cart";
-import { getProductById } from "@/data/products";
+import { getProductById } from "@/data/products"
+import { getProductImage } from "@/data/images";
 import { formatPrice } from "@/lib/utils";
 
 export default function CartPage() {
@@ -54,8 +55,7 @@ export default function CartPage() {
       <div className="grid lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-6">
           {cartProducts.map(({ item, product }) => {
-            const primaryImage =
-              product.images.find((i) => i.isPrimary) || product.images[0];
+            const primaryImage = getProductImage(product.id, product.name);
             return (
               <div
                 key={`${item.productId}-${item.selectedStorage}-${item.selectedColor}`}

@@ -34,9 +34,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
-  const registryImage = getProductImage(product.id, product.name);
-  const legacyImage = product.images?.find((i) => i.isPrimary) || product.images?.[0];
-  const primaryImage = { url: registryImage.url || legacyImage?.url, alt: registryImage.alt || legacyImage?.alt || product.name };
+  const primaryImage = getProductImage(product.id, product.name);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">

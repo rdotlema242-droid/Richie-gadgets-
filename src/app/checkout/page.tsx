@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle2, CreditCard, Truck, Shield } from "lucide-react";
 import { useCartStore } from "@/store/cart";
-import { getProductById } from "@/data/products";
+import { getProductById } from "@/data/products"
+import { getProductImage } from "@/data/images";
 import { formatPrice } from "@/lib/utils";
 
 type PaymentMethod = "card" | "paypal" | "transfer";
@@ -361,8 +362,7 @@ export default function CheckoutPage() {
 
             <ul className="space-y-4 max-h-64 overflow-y-auto pr-1">
               {cartProducts.map(({ item, product }) => {
-                const primaryImage =
-                  product.images.find((i) => i.isPrimary) || product.images[0];
+                const primaryImage = getProductImage(product.id, product.name);
                 return (
                   <li key={item.productId} className="flex gap-3">
                     <div className="relative h-14 w-14 shrink-0 rounded-lg bg-white/[0.04] border border-border overflow-hidden">
