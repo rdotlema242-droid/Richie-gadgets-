@@ -1,0 +1,21 @@
+node_modules/
+.next/
+out/
+build/
+
+# Local environment files and secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Replit/workspace-only files
+.local/
+.cache/
+.replit
+attached_assets/
+
+# Logs and local tooling output
+*.log
+*.tsbuildinfo
+.DS_Store
